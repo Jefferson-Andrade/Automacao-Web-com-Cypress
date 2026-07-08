@@ -1,0 +1,36 @@
+{
+  "name": "cypress-ecommerce-automation",
+  "version": "1.0.0",
+  "description": "Automacao de testes E2E do site Automation Exercise com Cypress + Cucumber (BDD)",
+  "main": "index.js",
+  "scripts": {
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "test": "cypress run",
+    "report:clean": "rimraf cypress/reports cypress/screenshots cypress/videos"
+  },
+  "keywords": [
+    "cypress",
+    "cucumber",
+    "bdd",
+    "e2e",
+    "qa"
+  ],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "devDependencies": {
+    "@badeball/cypress-cucumber-preprocessor": "^26.0.0",
+    "@bahmutov/cypress-esbuild-preprocessor": "^2.2.8",
+    "@faker-js/faker": "^10.5.0",
+    "cypress": "^15.18.0",
+    "cypress-mochawesome-reporter": "^4.0.2",
+    "esbuild": "^0.28.1",
+    "rimraf": "^6.1.3"
+  },
+  "cypress-cucumber-preprocessor": {
+    "stepDefinitions": [
+      "cypress/e2e/step_definitions/**/*.js"
+    ]
+  }
+}
