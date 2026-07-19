@@ -8,7 +8,7 @@ O objetivo é automatizar os principais fluxos de um site de e-commerce: login, 
 
 ## Tecnologias usadas
 
-Cypress
+Cypress 
 Cucumber (@badeball/cypress-cucumber-preprocessor)
 JavaScript / Node.js
 Faker
