@@ -8,25 +8,29 @@ O objetivo é automatizar os principais fluxos de um site de e-commerce: login, 
 
 ## Tecnologias usadas
 
-- Cypress
-- Cucumber (`@badeball/cypress-cucumber-preprocessor`)
-- JavaScript / Node.js
-- Page Object Model
-- Faker (`@faker-js/faker`) para gerar dados de teste
-- Mochawesome (`cypress-mochawesome-reporter`) para os relatórios
-- GitHub Actions para rodar os testes automaticamente
+Cypress
+Cucumber (@badeball/cypress-cucumber-preprocessor)
+JavaScript / Node.js
+Faker
+Mochawesome
+GitHub Actions
 
 ## Estrutura do projeto
+```
+## Estrutura do Projeto
+
+```text
+cypress/
+├── e2e/
+│   ├── features/          # Cenários BDD (.feature)
+│   └── step_definitions/  # Implementação dos passos
+├── pages/                 # Page Objects
+├── fixtures/              # Dados de teste
+├── reports/               # Relatórios gerados
+└── support/               # Configurações e comandos customizados
+```
 
 ```
-cypress/
-  e2e/
-    features/           -> cenarios em Gherkin (.feature)
-    step_definitions/    -> implementacao dos passos do Gherkin
-  pages/                 -> Page Objects (um por tela do site)
-  support/               -> comandos customizados, dados falsos e config global
-cypress.config.js
-.github/workflows/       -> pipeline do GitHub Actions
 ```
 
 ## Cenários automatizados
