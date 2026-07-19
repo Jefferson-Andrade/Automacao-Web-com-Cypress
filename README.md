@@ -1,4 +1,4 @@
-# cypress-ecommerce-automation
+# Automação de Testes E2E com Cypress
 
 Projeto de automação de testes end-to-end do site [Automation Exercise](https://automationexercise.com), feito para a disciplina de automação de testes.
 
