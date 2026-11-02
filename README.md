@@ -45,7 +45,7 @@ As dependências e suas faixas de versão estão em [package.json](package.json)
 ### Pré-requisitos
 
 - Git.
-- Node.js e npm compatíveis com as dependências registradas no projeto.
+- Node.js 24 e npm.
 - Acesso à internet e disponibilidade do Automation Exercise.
 - Google Chrome instalado, caso escolha executar com `--browser chrome`.
 
@@ -126,6 +126,18 @@ Os artefatos configurados têm retenção de **7 dias**:
 - `screenshots`: upload em caso de falha.
 
 Abra uma execução na aba **Actions** para consultar os logs e baixar os artefatos disponíveis. A existência do workflow não significa que a execução mais recente foi aprovada.
+
+## Auditoria das dependências
+
+Com Node.js 24, execute:
+
+```bash
+npm run audit:dependencies
+```
+
+A CI executa essa auditoria antes dos testes e falha quando o npm identifica vulnerabilidades de gravidade baixa ou superior. A consulta depende da disponibilidade do registro npm.
+
+O projeto atualiza Cucumber e Mochawesome e utiliza `overrides` para `glob` 14 e `minimatch` 11, pois as versões solicitadas por dependências indiretas ainda recebem alertas. Esses ajustes atravessam versões principais e devem ser reavaliados quando os pacotes de origem incorporarem as correções. As mudanças precisam passar pelos cenários E2E e pela geração dos relatórios.
 
 ## Estrutura do repositório
 
