@@ -26,6 +26,21 @@ A suíte contém **12 cenários em 7 arquivos `.feature`**, com organização po
 
 A quantidade descreve os cenários presentes no código, não o resultado da última execução nem a cobertura de todas as funcionalidades do site. Para conferir aprovação ou falha, consulte a execução correspondente ao commit na aba Actions.
 
+## Validação registrada em 02/11/2026
+
+A [execução do PR de atualização das dependências](https://github.com/Jefferson-Andrade/Automacao-Web-com-Cypress/actions/runs/41489168514), no commit [`e7b3c92`](https://github.com/Jefferson-Andrade/Automacao-Web-com-Cypress/commit/e7b3c922f767957242a5c79aedbbb2a96f1cc0d6), registrou:
+
+| Verificação | Resultado |
+| --- | --- |
+| Auditoria npm, incluindo dependências de desenvolvimento | Zero vulnerabilidades reportadas |
+| Cenários E2E no Chrome 156 headless | 12 aprovados em 7 arquivos |
+| Falhas, testes pendentes ou ignorados | 0 |
+| Relatório Mochawesome e vídeos | Gerados e publicados como artefatos |
+
+A correção foi integrada à `main` pelo [PR #1](https://github.com/Jefferson-Andrade/Automacao-Web-com-Cypress/pull/1), no commit [`37b2dda`](https://github.com/Jefferson-Andrade/Automacao-Web-com-Cypress/commit/37b2dda492581e7668811727c825a2e60273485f). A atualização substituiu o resultado anterior de 28 alertas de dependências por zero na auditoria daquela execução.
+
+Esse registro corresponde às versões e à base de avisos disponíveis na data da execução. Novos avisos podem aparecer; consulte a CI do commit desejado. Os artefatos seguem a retenção de 7 dias do workflow.
+
 ## Tecnologias e organização
 
 | Tecnologia ou recurso | Uso no projeto |
