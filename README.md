@@ -1,80 +1,158 @@
-# Automação de Testes E2E com Cypress
+# Automação Web com Cypress e Cucumber
 
-Projeto de automação de testes end-to-end do site [Automation Exercise](https://automationexercise.com), feito para a disciplina de automação de testes.
+Projeto de estudo de testes end-to-end do [Automation Exercise](https://automationexercise.com/), desenvolvido para praticar automação de fluxos de e-commerce com JavaScript, Cypress e cenários em Gherkin.
 
-## Sobre o projeto
+A suíte contém **12 cenários em 7 arquivos `.feature`**, com organização por Page Objects, geração de dados fictícios e integração com GitHub Actions.
 
-O objetivo é automatizar os principais fluxos de um site de e-commerce: login, cadastro, busca, filtros, carrinho, checkout e logout. Os testes seguem o padrão BDD (Behavior Driven Development), escritos em Gherkin (arquivos `.feature`) e executados com Cucumber + Cypress.
+## Comece por aqui
 
-## Tecnologias usadas
+- [Cenários em Gherkin](cypress/e2e/features/): comportamentos esperados em português.
+- [Step definitions](cypress/e2e/step_definitions/): implementação dos passos.
+- [Page Objects](cypress/pages/): interação com as páginas e verificações da interface.
+- [Execuções no GitHub Actions](https://github.com/Jefferson-Andrade/Automacao-Web-com-Cypress/actions/workflows/cypress.yml): resultados e artefatos de cada execução.
 
-Cypress 
-Cucumber (@badeball/cypress-cucumber-preprocessor)
-JavaScript / Node.js
-Faker
-Mochawesome
-GitHub Actions
+## Cenários implementados
 
-## Estrutura do projeto
+| Funcionalidade | O que os cenários verificam | Quantidade |
+| --- | --- | ---: |
+| Cadastro | Criação de conta e rejeição de e-mail já cadastrado | 2 |
+| Login | Credenciais corretas e senha incorreta | 2 |
+| Logout | Retorno à página de login após sair da conta | 1 |
+| Busca | Produto existente e busca sem resultados | 2 |
+| Filtros | Títulos das listagens por categoria Women > Dress e marca Polo | 2 |
+| Carrinho | Adição de dois produtos e remoção de um produto | 2 |
+| Checkout | Endereços exibidos e confirmação do pedido com dados fictícios | 1 |
+| **Total** | | **12** |
+
+A quantidade descreve os cenários presentes no código, não o resultado da última execução nem a cobertura de todas as funcionalidades do site. Para conferir aprovação ou falha, consulte a execução correspondente ao commit na aba Actions.
+
+## Tecnologias e organização
+
+| Tecnologia ou recurso | Uso no projeto |
+| --- | --- |
+| JavaScript / Node.js / npm | Implementação e gerenciamento das dependências |
+| Cypress | Automação da interface web |
+| Cucumber + Gherkin | Descrição dos cenários e ligação com os passos JavaScript |
+| Page Objects | Organização das interações e verificações por página |
+| Faker | Geração de usuários e dados de pagamento fictícios |
+| Mochawesome | Relatórios HTML da execução |
+| GitHub Actions | Execução automatizada e armazenamento dos artefatos |
+
+As dependências e suas faixas de versão estão em [package.json](package.json); o [package-lock.json](package-lock.json) registra as versões resolvidas.
+
+## Como executar
+
+### Pré-requisitos
+
+- Git.
+- Node.js e npm compatíveis com as dependências registradas no projeto.
+- Acesso à internet e disponibilidade do Automation Exercise.
+- Google Chrome instalado, caso escolha executar com `--browser chrome`.
+
+### 1. Baixar o projeto e instalar as dependências
+
+```bash
+git clone https://github.com/Jefferson-Andrade/Automacao-Web-com-Cypress.git
+cd Automacao-Web-com-Cypress
+npm ci
 ```
-## Estrutura do Projeto
 
-```text
-cypress/
-├── e2e/
-│   ├── features/          # Cenários BDD (.feature)
-│   └── step_definitions/  # Implementação dos passos
-├── pages/                 # Page Objects
-├── fixtures/              # Dados de teste
-├── reports/               # Relatórios gerados
-└── support/               # Configurações e comandos customizados
-```
+### 2. Executar os testes
 
-```
-```
+Modo interativo:
 
-## Cenários automatizados
-
-- **Login**: login com credenciais corretas e com senha incorreta
-- **Cadastro**: criação de conta nova e tentativa de cadastro com e-mail já existente
-- **Logout**: sair da conta
-- **Busca**: busca de produto existente e produto inexistente
-- **Filtros**: filtro por categoria (Women > Dress) e por marca (Polo)
-- **Carrinho**: adicionar produtos e remover produto do carrinho
-- **Checkout**: fluxo completo de finalização de compra, do carrinho até a confirmação do pedido
-
-Os usuários usados nos testes são criados e removidos automaticamente pela API do próprio site (`/api/createAccount` e `/api/deleteAccount`), então cada execução usa um e-mail novo, gerado com o Faker.
-
-## Como rodar o projeto
-
-Instalar as dependências:
-
-```
-npm install
-```
-
-Rodar os testes com a interface do Cypress (modo interativo):
-
-```
+```bash
 npm run cypress:open
 ```
 
-Rodar todos os testes pelo terminal (modo headless):
+Na interface, selecione E2E Testing, um navegador e o arquivo de cenário desejado.
 
-```
+Modo headless:
+
+```bash
 npm run cypress:run
 ```
 
-## Relatórios, screenshots e vídeos
+Para usar o Chrome, como no workflow:
 
-Depois de rodar `npm run cypress:run`, os resultados ficam em:
+```bash
+npm run cypress:run -- --browser chrome
+```
 
-- `cypress/reports` -> relatório em HTML gerado pelo Mochawesome
-- `cypress/screenshots` -> screenshots tiradas quando um teste falha
-- `cypress/videos` -> vídeo da execução de cada spec
+Para executar somente os cenários de login:
 
-Esses três diretórios não vão para o repositório (estão no `.gitignore`), já que são gerados a cada execução.
+```bash
+npm run cypress:run -- --spec "cypress/e2e/features/login.feature"
+```
+
+O comando `npm test` também executa `cypress run`. A URL base e as demais opções estão em [cypress.config.js](cypress.config.js).
+
+## Preparação e limpeza dos dados
+
+Os cenários que precisam de uma conta existente usam `POST /api/createAccount` para preparar o usuário. O hook `After` tenta remover a conta com `DELETE /api/deleteAccount` quando há um usuário registrado no estado do teste.
+
+No cenário de cadastro com sucesso, a criação e a exclusão da conta são realizadas pela interface. Os dados são gerados em [dadosFake.js](cypress/support/dadosFake.js), com e-mails que combinam data/hora e um número aleatório.
+
+As chamadas de API apoiam a preparação e a limpeza dos cenários de interface; não constituem uma suíte dedicada de testes de contrato da API. Uma interrupção abrupta pode impedir a limpeza.
+
+## Relatórios e evidências
+
+Após uma execução headless, consulte:
+
+| Caminho | Conteúdo |
+| --- | --- |
+| `cypress/reports/` | Relatório HTML do Mochawesome |
+| `cypress/screenshots/` | Capturas automáticas quando um teste falha |
+| `cypress/videos/` | Vídeos da execução dos arquivos de teste |
+
+Essas pastas são geradas durante a execução e estão no [.gitignore](.gitignore). A disponibilidade de arquivos depende de a execução alcançar a etapa que os produz.
+
+Para limpar relatórios, capturas e vídeos locais:
+
+```bash
+npm run report:clean
+```
+
+Esse comando remove os artefatos gerados nessas três pastas.
 
 ## Integração contínua
 
-O workflow em `.github/workflows/cypress.yml` roda os testes automaticamente a cada push ou pull request na branch `main`, e sobe o relatório, os vídeos e os screenshots como artefatos da execução.
+O [workflow Cypress](.github/workflows/cypress.yml) executa os testes no Chrome, em Ubuntu, a cada push na `main` e em pull requests destinados à `main`.
+
+Os artefatos configurados têm retenção de **7 dias**:
+
+- `relatorio-mochawesome`: upload tentado ao final, inclusive quando há falha.
+- `videos`: upload tentado ao final, inclusive quando há falha.
+- `screenshots`: upload em caso de falha.
+
+Abra uma execução na aba **Actions** para consultar os logs e baixar os artefatos disponíveis. A existência do workflow não significa que a execução mais recente foi aprovada.
+
+## Estrutura do repositório
+
+```text
+.github/workflows/cypress.yml
+cypress/
+  e2e/
+    features/           # 7 arquivos Gherkin
+    step_definitions/   # Implementação dos passos e hooks
+  pages/                # Page Objects
+  support/              # Comandos, dados fictícios e estado dos testes
+cypress.config.js
+package.json
+package-lock.json
+README.md
+SOBRE_O_PROJETO.md
+```
+
+## Escopo e continuidade
+
+A suíte depende de um site público externo: alterações de páginas, anúncios, lentidão ou indisponibilidade podem afetar os resultados. O checkout utiliza dados fictícios em ambiente de demonstração; não há validação de pagamento real.
+
+Possíveis evoluções incluem ampliar os cenários negativos, verificar os produtos retornados pelos filtros além dos títulos e investigar falhas recorrentes a partir dos logs e relatórios.
+
+O projeto de [testes manuais do Automation Exercise](https://github.com/Jefferson-Andrade/qa-automation-exercise) apresenta outra parte do portfólio. Os 12 cenários automatizados não representam a automação integral dos 42 casos manuais.
+
+## Autor
+
+**Jefferson Andrade Coelho**  
+Estudante de Análise e Desenvolvimento de Sistemas na UNINTER.
